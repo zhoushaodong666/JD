@@ -1,5 +1,6 @@
 <?php
 namespace app\admin\controller;
+use function foo\func;
 use think\Controller;
 class Goods extends Controller
 {
@@ -89,25 +90,59 @@ class Goods extends Controller
     //显示商品列表
     public function goodslist($goods_pid="")
     {
+        $goods_model = model('Goods');
+
+
         $cate_model=model('Cate');
+        $cate_all=$cate_model->all()->toArray();
+        //var_dump($cate_all);die;
         $cate_select=$cate_model->select();
         $catelist1=$cate_model->getChildren($cate_select);
         //获取无限级分类列表
         $this->assign('catelist1',$catelist1);
         $cate_find=db('cate')->find($goods_pid);
+
         if ($cate_find)
         {
-            $goods_select = db('goods')->where('goods_pid','=',$goods_pid)
-                ->join('cate','jd_goods.goods_pid = cate.cate_id')->paginate(3);
+            $goods_all=$goods_model->all(function ($query) use ($goods_pid){
+                $query->where('goods_pid','eq',$goods_pid) ;
+            });
             $this->assign('cate_find',$cate_find);
 
         }else {
-            $goods_select = db('goods')->join('cate', 'jd_goods.goods_pid = cate.cate_id')->paginate(3);
+            $goods_all=$goods_model->all();
+            $goods_all_toArray = $goods_all->toArray();
+            $goods_info = array();
+            foreach ($goods_all_toArray as $key=>$value)
+            {
+                $goods_get = $goods_model->get($value['goods_id']);
+                $goods_keywords=$goods_get->keywords;
+                $goods_keywords_toArray=$goods_keywords->toArray();
+                $value['keywords']=$goods_keywords_toArray;
+                $goods_cate = $goods_get->cate;
+                $goods_cate_toArray = $goods_cate->toArray();
+                $value['cate_name']=$goods_cate_toArray['cate_name'];
+                $goods_info[] = $value;
+            }
             $this->assign('cate_find',"1");
         }
+        $goods_all_toArray = $goods_all->toArray();
+        $goods_info = array();
+        foreach ($goods_all_toArray as $key=>$value)
+        {
+            $goods_get = $goods_model->get($value['goods_id']);
+            $goods_keywords=$goods_get->keywords;
+            $goods_keywords_toArray=$goods_keywords->toArray();
+            $value['keywords']=$goods_keywords_toArray;
+            $goods_cate = $goods_get->cate;
+            $goods_cate_toArray = $goods_cate->toArray();
+            $value['cate_name']=$goods_cate_toArray['cate_name'];
+            $goods_info[] = $value;
+        }
             //$this->assign('cate_find'," ");
-            $this->assign('goods_select', $goods_select);
             //var_dump($cate_find);
+        //var_dump($goods_info);
+            $this->assign('goods_info',$goods_info);
             return $this->fetch();
         }
 
@@ -119,6 +154,8 @@ class Goods extends Controller
 //        $this->assign('goods_select',$goods_select);
 //        return $this->fetch();
 //    }
+
+
     //显示商品更新界面
     public function upd($goods_id="")
     {

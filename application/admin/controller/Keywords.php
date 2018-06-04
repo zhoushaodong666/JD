@@ -24,7 +24,17 @@ use think\Controller;
 
         public function addhanddle()
         {
-            return $this->fetch();
+            $post=request()->post();
+            $validate=validate('Keywords');
+            if (!$validate->check($post)){
+                $this->error($validate->getError());
+            }
+            if (db('keywords')->insert($post)){
+                $this->success('关键字添加成功','keywords/keywordslist');
+            }else{
+                $this->error('关键字添加失败','keywords/keywordslist');
+            }
+
         }
 
         public function upd()
@@ -34,6 +44,6 @@ use think\Controller;
 
         public function updhanddle()
         {
-            return $this->fetch();
+
         }
     }

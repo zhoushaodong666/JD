@@ -10,6 +10,8 @@ namespace app\admin\model;
 use think\Model;
     class Cate extends Model
     {
+        protected $resultSetType = 'collection';
+
         public function getChildrenId($cate_list, $pid = 0, $cate_level = 0)
         {
             static $arr = array();
@@ -49,6 +51,12 @@ use think\Model;
                     }
                 }
                 return $arr;
-            }
+        }
+
+        //分类和商品的一对多关系
+        public function goods()
+        {
+            return $this->hasMany('Goods');
+        }
 
     }
