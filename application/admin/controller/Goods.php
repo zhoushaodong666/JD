@@ -92,7 +92,6 @@ class Goods extends Controller
     {
         $goods_model = model('Goods');
 
-
         $cate_model=model('Cate');
         $cate_all=$cate_model->all()->toArray();
         //var_dump($cate_all);die;
@@ -243,7 +242,38 @@ class Goods extends Controller
             $this->error('商品删除失败','goods/goodslist');
         }
 
+    }
 
+    public function keywordsajax()
+    {
+        if (request()->isAjax()) {
+            $post = request()->post();
+            $post_val = $post['val'];
+            $keywords_like = db('keywords')->where('keywords_name','like','%'.$post_val.'%')->limit(3)->select();
+            return $keywords_like;
+        }
+    }
+
+    public function keywordsaddhanddle()
+    {
+        $post = request()->post();
+        $goods_id = array_keys($post)[0];
+        $keywords_name = array_values($post)[0];
+        if (empty($keywords_name))
+        {
+             $this->error('关键字不能为空','goods/goodslist');
+        }
+        $keywords_find = db('keywords')->where('keywords_name','eq',$keywords_name)->find();
+        if (empty($keywords_find))
+        {
+            $this->error('该关键字不能存在,请先添加','keywords/add');
+        }
+
+        $keywords_id=$keywords_find['keywords_id'];
+        $goods_model = model('goods');
+        $goods = $goods_model->get($goods_id);
+        $goods->keywords()->attach($keywords_id);
+        return $this->redirect('goods/goodslist');
     }
 
 

@@ -11,6 +11,7 @@ use think\Model;
 class Keywords extends Model {
     protected $resultSetType = 'collection';
 
+    //关键字和商品多对一关系
     public function goods()
     {
        return $this->belongsToMany('Goods','jd_goods_keywords');

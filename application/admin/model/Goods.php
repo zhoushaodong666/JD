@@ -13,6 +13,7 @@ use think\Model;
     {
         protected $resultSetType = 'collection';
 
+        //商品和关键字的多对多关系
         public function keywords()
         {
             return $this->belongsToMany('Keywords','jd_goods_keywords');
