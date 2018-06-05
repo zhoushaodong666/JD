@@ -299,6 +299,7 @@ class Goods extends Controller
         {
             return $this->redirect('goods/goodslist');
         }
+        //
         $goods_model = model('goods');
         $goods = $goods_model->get($goods_id);
         $goods->keywords()->detach($keywords_id);
