@@ -236,6 +236,7 @@ class Goods extends Controller
                     unlink($url);
                 }
             }
+            $goods_keywords_del_result = db('goods_keywords')->where('goods_id','eq',$goods_id)->delete();
             $this->success('商品删除成功','goods/goodslist');
         }
         else{
@@ -266,9 +267,8 @@ class Goods extends Controller
         $keywords_find = db('keywords')->where('keywords_name','eq',$keywords_name)->find();
         if (empty($keywords_find))
         {
-            $this->error('该关键字不能存在,请先添加','keywords/add');
+            $this->error('该关键字不存在,请先添加','keywords/add');
         }
-
         $keywords_id=$keywords_find['keywords_id'];
         $goods_model = model('goods');
         $goods = $goods_model->get($goods_id);
@@ -276,6 +276,37 @@ class Goods extends Controller
         return $this->redirect('goods/goodslist');
     }
 
+    public function keywordsdelhanddle($goods_id="",$keywords_name="")
+    {
+        if (empty($goods_id)|empty($keywords_name))
+        {
+            return $this->redirect('goods/goodslist');
+        }
+        $goods_find = db('goods')->find($goods_id);
+        if (empty($goods_find))
+        {
+            return $this->redirect('goods/goodslist');
+        }
+        $keywords_find = db('keywords')->where('keywords_name','eq',$keywords_name)->find();
+        if (empty($keywords_find))
+        {
+            return $this->redirect('goods/goodslist');
+        }
+        $keywords_id = $keywords_find['keywords_id'];
+        $goods_keywords_find = db('goods_keywords')->where('goods_id','eq',$goods_id)
+                                ->where('keywords_id','eq',$keywords_id)->find();
+        if (empty($goods_keywords_find))
+        {
+            return $this->redirect('goods/goodslist');
+        }
+        $goods_model = model('goods');
+        $goods = $goods_model->get($goods_id);
+        $goods->keywords()->detach($keywords_id);
+        $this->redirect('goods/goodslist');
 
+
+
+
+    }
 
 }
