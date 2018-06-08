@@ -273,7 +273,7 @@ class Goods extends Controller
         $keywords_id = $keywords_find['keywords_id'];
         $goods_keywords_find = db('goods_keywords')->where('goods_id','eq',$goods_id)
             ->where('keywords_id','eq',$keywords_id)->find();
-        if (!empty($goods_keywords_find))
+        if (! empty($goods_keywords_find))
         {
             return $this->redirect('goods/goodslist');
         }
