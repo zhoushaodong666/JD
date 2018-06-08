@@ -23,7 +23,7 @@ class Goods extends Controller
         return $this->fetch();
     }
 
-    public function goodslist($goods_pid="")
+    public function goodslist($goods_pid="",$goods_order="id")
     {
         if ($goods_pid=="")
         {
@@ -35,15 +35,30 @@ class Goods extends Controller
         {
             $this->redirect('index/index');
         }
-
+        if ($goods_order=='goods_sales')
+        {
+            $goods_order='goods_sales desc';
+        }
+        elseif ($goods_order=='goods_price_asc')
+        {
+            $goods_order='goods_price';
+        }
+        elseif($goods_order=='goods_price_desc')
+        {
+            $goods_order='goods_price desc';
+        }
+        else{
+            $goods_order="goods_id";
+        }
         $goods_model = new \app\admin\model\Goods;
 
         $cate_model=new \app\admin\model\Cate;
         $cate_all=$cate_model->all()->toArray();
 
-        $goods_all=$goods_model->all(function ($query) use ($goods_pid){
-            $query->where('goods_pid','eq',$goods_pid)->where('goods_status','eq','1') ;
+        $goods_all=$goods_model->all(function ($query) use ($goods_pid,$goods_order){
+            $query->where('goods_pid','eq',$goods_pid)->where('goods_status','eq','1')->order($goods_order);
         });
+
 
         $goods_all_toArray = $goods_all->toArray();
         $goods_info = array();
@@ -58,7 +73,7 @@ class Goods extends Controller
             $value['cate_name']=$goods_cate_toArray['cate_name'];
             $goods_info[] = $value;
         }
-
+        $this->assign('goods_pid',$goods_pid);
         $this->assign('goods_info',$goods_info);
         return $this->fetch();
     }
