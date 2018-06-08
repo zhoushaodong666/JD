@@ -54,6 +54,7 @@ class Goods extends Controller
         $post['goods_thumb']=session('goods_thumb');
         $post['goods_status']=isset($post['goods_status'])? $post['goods_status']:'0';
         $post['goods_pid']=isset($post['goods_pid'])? $post['goods_pid']:null;
+        //dump($post);die;
 
         $validate=validate('Goods');
         if (!$validate->check($post))
@@ -268,6 +269,13 @@ class Goods extends Controller
         if (empty($keywords_find))
         {
             $this->error('该关键字不存在,请先添加','keywords/add');
+        }
+        $keywords_id = $keywords_find['keywords_id'];
+        $goods_keywords_find = db('goods_keywords')->where('goods_id','eq',$goods_id)
+            ->where('keywords_id','eq',$keywords_id)->find();
+        if (!empty($goods_keywords_find))
+        {
+            return $this->redirect('goods/goodslist');
         }
         $keywords_id=$keywords_find['keywords_id'];
         $goods_model = model('goods');
