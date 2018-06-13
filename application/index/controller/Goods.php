@@ -77,4 +77,16 @@ class Goods extends Controller
         $this->assign('goods_info',$goods_info);
         return $this->fetch();
     }
+
+    public function introduction($goods_id="")
+    {
+        if ($goods_id==''){
+            $this->redirect('index/index');
+        }
+        $goods_find = db('goods')->find($goods_id);
+        if (empty($goods_find)){
+            $this->redirect('index/index');
+        }
+        return $this->fetch();
+    }
 }

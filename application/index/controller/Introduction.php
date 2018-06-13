@@ -5,7 +5,7 @@ use think\Controller;
 
 class Introduction extends Controller
 {
-    public function index()
+    public function introduction()
     {
         return $this->fetch('introduction');
     }

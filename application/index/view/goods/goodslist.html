@@ -106,6 +106,7 @@
 								<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
 									{volist name="goods_info" id="vo"}
 									<li>
+										<a href="{:url('goods/introduction',['goods_id'=>$vo.goods_id])}">
 										<div class="i-pic limit">
 											<img src="{$vo.goods_thumb}" />
 											<p class="title fl">{$vo.goods_name}
@@ -122,6 +123,7 @@
 												销量<span>{$vo.goods_sales}</span>
 											</p>
 										</div>
+										</a>
 									</li>
 									{/volist}
 								</ul>

@@ -157,6 +157,7 @@
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品名称</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">缩略图</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品价格</th>
+											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">促销价格</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品状态</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品销量</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品库存</th>
@@ -188,6 +189,7 @@
 											<td class="hidden-480 ">{$vo.goods_name}</td>
 											<td class="hidden-480 "><img src="{$vo.goods_thumb}" width="100px"></td>
 											<td class="hidden-480 ">{$vo.goods_price}</td>
+											<td class="hidden-480 ">{$vo.goods_after_price}</td>
 											<td class="hidden-480 ">{if condition="$vo.goods_status eq 1"}已上架{else/}未上架{/if}</td>
 											<td class="hidden-480 ">{$vo.goods_sales}</td>
 											<td class="hidden-480 ">{$vo.goods_inventory}</td>
