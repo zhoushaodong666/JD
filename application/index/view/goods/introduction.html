@@ -48,9 +48,14 @@
 						</div>
 			</div>
 				<ol class="am-breadcrumb am-breadcrumb-slash">
-					<li><a href="#">首页</a></li>
-					<li><a href="#">分类</a></li>
-					<li class="am-active">内容</li>
+					<li><a href="{:url('index/index')}">首页</a></li>
+					{volist name="cate_in" id="vo"}
+					{if condition="$i eq 3"}
+					<li class="am-active"><a href="{:url('goods/goodslist',['goods_pid'=>$vo.cate_id])}">{$vo.cate_name}</a></li>
+					{else/}
+					<li class="am-active">{$vo.cate_name}</li>
+					{/if}
+					{/volist}
 				</ol>
 				<script type="text/javascript">
 					$(function() {});
@@ -129,21 +134,31 @@
 						<!--名称-->
 						<div class="tb-detail-hd">
 							<h1>	
-				 良品铺子 手剥松子218g 坚果炒货 巴西松子
+				 {volist name="goods_introduction.keywords" id="vo"}
+					{$vo.keywords_name}
+				 {/volist}
 	          </h1>
 						</div>
 						<div class="tb-detail-list">
 							<!--价格-->
 							<div class="tb-detail-price">
+								{if condition="$goods_introduction.goods_after_price neq 0"}
 								<li class="price iteminfo_price">
 									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">56.90</b>  </dd>                                 
+									<dd><em>¥</em><b class="sys_item_price">{$goods_introduction.goods_after_price}</b>  </dd>
 								</li>
 								<li class="price iteminfo_mktprice">
 									<dt>原价</dt>
-									<dd><em>¥</em><b class="sys_item_mktprice">98.00</b></dd>									
+									<dd><em>¥</em><b class="sys_item_mktprice">{$goods_introduction.goods_price}</b></dd>
 								</li>
-								<div class="clear"></div>
+								{else/}
+								<li class="price iteminfo_mktprice">
+									<dt>原价</dt>
+									<dd><em>¥</em>&nbsp;<b style="color: red; font-size: 20px">{$goods_introduction.goods_price}</b></dd>
+								</li>
+								{/if}
+
+								<!--<div class="clear"></div>-->
 							</div>
 
 							<!--地址-->
@@ -173,11 +188,9 @@
 
 							<!--销量-->
 							<ul class="tm-ind-panel">
-								<li class="tm-ind-item tm-ind-sellCount canClick">
-									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">1015</span></div>
-								</li>
+
 								<li class="tm-ind-item tm-ind-sumCount canClick">
-									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">6015</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">{$goods_introduction.goods_sales}</span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
 									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">640</span></div>
@@ -204,29 +217,12 @@
 												<div class="theme-signin-left">
 
 													<div class="theme-options">
-														<div class="cart-title">口味</div>
-														<ul>
-															<li class="sku-line selected">原味<i></i></li>
-															<li class="sku-line">奶油<i></i></li>
-															<li class="sku-line">炭烧<i></i></li>
-															<li class="sku-line">咸香<i></i></li>
-														</ul>
-													</div>
-													<div class="theme-options">
-														<div class="cart-title">包装</div>
-														<ul>
-															<li class="sku-line selected">手袋单人份<i></i></li>
-															<li class="sku-line">礼盒双人份<i></i></li>
-															<li class="sku-line">全家福礼包<i></i></li>
-														</ul>
-													</div>
-													<div class="theme-options">
 														<div class="cart-title number">数量</div>
 														<dd>
 															<input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
 															<input id="text_box" name="" type="text" value="1" style="width:30px;" />
 															<input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
-															<span id="Stock" class="tb-hidden">库存<span class="stock">1000</span>件</span>
+															<span id="Stock" class="tb-hidden">库存<span class="stock">{$goods_introduction.goods_inventory}</span>件</span>
 														</dd>
 
 													</div>
@@ -253,27 +249,9 @@
 
 								</dd>
 							</dl>
-							<div class="clear"></div>
+
 							<!--活动	-->
-							<div class="shopPromotion gold">
-								<div class="hot">
-									<dt class="tb-metatit">店铺优惠</dt>
-									<div class="gold-list">
-										<p>购物满2件打8折，满3件7折<span>点击领券<i class="am-icon-sort-down"></i></span></p>
-									</div>
-								</div>
-								<div class="clear"></div>
-								<div class="coupon">
-									<dt class="tb-metatit">优惠券</dt>
-									<div class="gold-list">
-										<ul>
-											<li>125减5</li>
-											<li>198减10</li>
-											<li>298减20</li>
-										</ul>
-									</div>
-								</div>
-							</div>
+
 						</div>
 
 						<div class="pay">
@@ -300,33 +278,7 @@
 
 				</div>
 
-				<!--优惠套装-->
-				<div class="match">
-					<div class="match-title">优惠套装</div>
-					<div class="match-comment">
-						<ul class="like_list">
-							<li>
-								<div class="s_picBox">
-									<a class="s_pic" href="#"><img src="__INDEX__/images/cp.jpg"></a>
-								</div> <a class="txt" target="_blank" href="#">萨拉米 1+1小鸡腿</a>
-								<div class="info-box"> <span class="info-box-price">¥ 29.90</span> <span class="info-original-price">￥ 199.00</span> </div>
-							</li>
-							<li class="plus_icon"><i>+</i></li>
-							<li>
-								<div class="s_picBox">
-									<a class="s_pic" href="#"><img src="__INDEX__/images/cp2.jpg"></a>
-								</div> <a class="txt" target="_blank" href="#">ZEK 原味海苔</a>
-								<div class="info-box"> <span class="info-box-price">¥ 8.90</span> <span class="info-original-price">￥ 299.00</span> </div>
-							</li>
-							<li class="plus_icon"><i>=</i></li>
-							<li class="total_price">
-								<p class="combo_price"><span class="c-title">套餐价:</span><span>￥35.00</span> </p>
-								<p class="save_all">共省:<span>￥463.00</span></p> <a href="#" class="buy_now">立即购买</a> </li>
-							<li class="plus_icon"><i class="am-icon-angle-right"></i></li>
-						</ul>
-					</div>
-				</div>
-				<div class="clear"></div>
+
 				
 							
 				<!-- introduce-->

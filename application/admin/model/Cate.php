@@ -46,8 +46,8 @@ use think\Model;
            static $arr = array();
             foreach ($cate_list as $key => $value) {
                 if ($value['cate_id'] == $pid) {
+                    array_unshift($arr,$value);
                     $this->getFatherId($cate_list, $value['cate_pid']);
-                    $arr[] = $value;
                     }
                 }
                 return $arr;

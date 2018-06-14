@@ -87,6 +87,25 @@ class Goods extends Controller
         if (empty($goods_find)){
             $this->redirect('index/index');
         }
+        $goods_status = $goods_find['goods_status'];
+        if ($goods_status == 0)
+        {
+            $this->redirect('index/index');
+        }
+        $goods_model = new \app\admin\model\Goods;
+        $goods_get = $goods_model->get($goods_id);
+        $goods_get_toArray = $goods_get->toArray();
+        $goods_keywords = $goods_get->keywords;
+        $goods_keywords_toArray = $goods_keywords->toArray();
+        $goods_get_toArray['keywords']=$goods_keywords_toArray;
+        $this->assign('goods_introduction',$goods_get_toArray);
+
+        //商品类别定位
+        $goods_pid = $goods_find['goods_pid'];
+        $cate_select = db('cate')->select();
+        $cate_model = new \app\admin\model\Cate;
+        $cate_in = $cate_model->getFatherId($cate_select,$goods_pid);
+        $this->assign('cate_in',$cate_in);
         return $this->fetch();
     }
 }

@@ -115,10 +115,22 @@
 											{/volist}
 
 											</p>
+											{if condition="$vo.goods_after_price eq 0"}
 											<p class="price fl">
-												<b>¥</b>
+												<b>原价：¥</b>
 												<strong>{$vo.goods_price}</strong>
 											</p>
+											{else/}
+											<p class="price fl">
+												<b>促销价：¥</b>
+												<strong>{$vo.goods_after_price}</strong>
+											</p>
+											<p class="price fl">
+												<b>原价：¥</b>
+												<strong><del>{$vo.goods_price}</del></strong>
+											</p>
+											{/if}
+
 											<p class="number fl">
 												销量<span>{$vo.goods_sales}</span>
 											</p>
