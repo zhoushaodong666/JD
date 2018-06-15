@@ -1,12 +1,14 @@
 <?php
 namespace app\admin\controller;
-use function foo\func;
 use think\Controller;
+
+session_start();
 class Goods extends Controller
 {
     //显示添加商品的界面
     public function add()
     {
+        unset($_SESSION['imgupload']);
         if (session('goods_thumb'))
         {
             $url_pre=DS.'jd'.DS.'public';
@@ -321,6 +323,34 @@ class Goods extends Controller
         $goods->keywords()->detach($keywords_id);
         $this->redirect('goods/goodslist');
 
+    }
+
+    //商品细节图上传响应
+    public function imgupload(){
+       $file = request()->file('goods_img');
+       $info = $file->move(ROOT_PATH.'public'.DS.'uploads'.DS.'img');
+       if($info)
+       {
+           $address = DS.'jd'.DS.'public'.DS.'uploads'.DS.'img'.DS.$info->getSaveName();
+           $_SESSION['imgupload'][]=$address;
+           return $address;
+       }else{
+           echo $file->getError();
+       }
+    }
+
+    public function imgcancle()
+    {
+        if(request()->isAjax()){
+            $post = request()->post();
+            $img_index = $post['index'];
+            $img_address = $_SESSION['imgupload'][$img_index];
+            $url_pre = DS.'jd'.DS.'public';
+            $url=str_replace($url_pre,'.',$img_address);
+            if (file_exists($url)){
+                unlink($url);
+            }
+        }
     }
 
 }

@@ -108,4 +108,6 @@ class Goods extends Controller
         $this->assign('cate_in',$cate_in);
         return $this->fetch();
     }
+
+
 }
