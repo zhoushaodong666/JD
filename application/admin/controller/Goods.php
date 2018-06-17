@@ -227,6 +227,13 @@ class Goods extends Controller
         $post['goods_thumb']=session('goods_thumb');
         $post['goods_status']=isset($post['goods_status'])? $post['goods_status']:'0';
         $post['goods_pid']=isset($post['goods_pid'])? $post['goods_pid']:null;
+        $post['goods_after_price']=empty($post['goods_after_price'])?'0':$post['goods_after_price'];
+
+        if ($post['goods_after_price']!=0){
+            if ($post['goods_after_price']>=$post['goods_price']){
+                $this->error('促销价格不能大于或等于商品价格');
+            }
+        }
         $validate=validate('Goods');
         if (!$validate->check($post))
         {

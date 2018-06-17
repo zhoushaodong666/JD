@@ -111,6 +111,19 @@
 							</div>
 
 							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">促销价格</label>
+								<div class="col-sm-9">
+									<input id="goods_after_price" name="goods_after_price"  class="col-xs-10 col-sm-5" type="text"
+											{if condition="$goods_find.goods_after_price neq 0"}
+										   value="{$goods_find.goods_after_price}"
+											{else/}
+									placeholder="不促销，可不填"
+											{/if}
+									>
+								</div>
+							</div>
+
+							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right">商品状态</label>
 								<div class="col-sm-9">
 									<!--<input id="goods_staus" name="goods_staus" placeholder="请输入商品状态" class="col-xs-10 col-sm-5" type="text">-->
