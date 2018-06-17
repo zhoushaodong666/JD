@@ -25,4 +25,9 @@ use think\Model;
             return $this->belongsTo('Cate','goods_pid');
         }
 
+        public function img()
+        {
+            return $this->hasMany('Img');
+        }
+
     }
