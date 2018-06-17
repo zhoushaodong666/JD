@@ -18,8 +18,6 @@ class Img extends Model
     //商品细节图和商品的多对一关系
     public function goods()
     {
-        return $this->belongsTo('Goods','img_pid');
+        return $this->belongsTo('Goods');
     }
-
-
 }

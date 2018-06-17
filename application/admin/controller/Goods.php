@@ -79,18 +79,23 @@ class Goods extends Controller
                 $this->error('促销价格不能大于或等于商品价格');
             }
         }
-        die;
-        //dump($post);die;
+       $imgupload = $_SESSION['imgupload'];
+
 
         $validate=validate('Goods');
         if (!$validate->check($post))
         {
             return $this->error($validate->getError());
         }
-        $goods_add_result=db('goods')->insert($post);
+        $goods_add_result=db('goods')->insertGetId($post);
         if ($goods_add_result)
         {
             session('goods_thumb',null);
+            $goods_model = new \app\admin\model\Goods;
+            $goods = $goods_model->find($goods_add_result);
+            foreach ($imgupload as $key => $value) {
+                $goods->img()->save(['url'=>$value]);
+            }
             return $this->success('商品添加成功','goods/goodslist');
         }else{
             session('goods_thumb',null);
