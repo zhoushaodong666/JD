@@ -2,12 +2,28 @@
 namespace app\admin\controller;
 use think\Controller;
 
-session_start();
+if (!isset($_SESSION['imgupload']))
+{
+    session_start();
+}
 class Goods extends Controller
 {
     //显示添加商品的界面
     public function add()
     {
+        if (cookie('imgupload'))
+        {
+            $cookie_arr=unserialize(cookie('imgupload'));
+            foreach ($cookie_arr as $key=>$value) {
+                $url_pre=DS.'jd'.DS.'public';
+                $url=str_replace($url_pre,'.',$value);
+                if (file_exists($url))
+                {
+                    unlink($url);
+                }
+            }
+        }
+        cookie('imgupload',null);
         unset($_SESSION['imgupload']);
         if (session('goods_thumb'))
         {
@@ -333,6 +349,8 @@ class Goods extends Controller
        {
            $address = DS.'jd'.DS.'public'.DS.'uploads'.DS.'img'.DS.$info->getSaveName();
            $_SESSION['imgupload'][]=$address;
+           $session_str = serialize($_SESSION['imgupload']);
+           cookie('imgupload',$session_str,3600);
            return $address;
        }else{
            echo $file->getError();
