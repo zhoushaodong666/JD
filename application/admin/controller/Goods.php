@@ -206,7 +206,7 @@ class Goods extends Controller
                 unlink($url);
             }
         }
-        session('goods_thumb',$goods_find['goods_thumb']);
+        session('goods_thumb',null);
         $cate_model=model('Cate');
         $cate_select=$cate_model->select();
         $cate_in=$cate_model->getFatherId($cate_select,$goods_find['goods_pid']);
@@ -241,11 +241,21 @@ class Goods extends Controller
     public function updhanddle()
     {
         $post=request()->post();
-        $post['goods_thumb']=session('goods_thumb');
+        $goods_info = db('goods')->find($post['goods_id']);
+        $img_url = $goods_info['goods_thumb'];
+        if ((session('goods_thumb')!=null)){
+            $post['goods_thumb']=session('goods_thumb');
+            $url_pre = DS . 'jd' . DS . 'public';
+            $url = str_replace($url_pre, '.',$img_url);
+            if (file_exists($url)) {
+                unlink($url);
+            }
+        }else{
+            $post['goods_thumb']=$img_url;
+        }
         $post['goods_status']=isset($post['goods_status'])? $post['goods_status']:'0';
         $post['goods_pid']=isset($post['goods_pid'])? $post['goods_pid']:null;
         $post['goods_after_price']=empty($post['goods_after_price'])?'0':$post['goods_after_price'];
-
         if ($post['goods_after_price']!=0){
             if ($post['goods_after_price']>=$post['goods_price']){
                 $this->error('促销价格不能大于或等于商品价格');
@@ -274,7 +284,6 @@ class Goods extends Controller
             session('goods_thumb', null);
             $this->error('商品修改失败','goods/goodlist');
         }
-
     }
 
     //处理商品删除
