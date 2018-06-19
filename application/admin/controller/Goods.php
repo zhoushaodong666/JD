@@ -81,7 +81,6 @@ class Goods extends Controller
         }
        $imgupload = $_SESSION['imgupload'];
 
-
         $validate=validate('Goods');
         if (!$validate->check($post))
         {
@@ -218,6 +217,24 @@ class Goods extends Controller
                     'cate_in'=>$cate_in,
             ]
         );
+
+        //获取商品细节图信息
+        $img_select = db('img')->where('goods_id','eq',$goods_id)->select();
+        if (isset($_SESSION['imgupload']))
+        {
+            foreach ($_SESSION['imgupload'] as $key => $value){
+                $url_pre = DS . 'jd' . DS . 'public';
+                $url = str_replace($url_pre, '.',$value);
+                if (file_exists($url)) {
+                    unlink($url);
+                }
+            }
+        }
+        unset($_SESSION['imgupload']);
+        foreach ($img_select as $key => $value) {
+            $_SESSION['imgupload'][]=$value['url'];
+        }
+        $this->assign('img_select',$img_select);
         return $this->fetch();
     }
 
@@ -234,6 +251,7 @@ class Goods extends Controller
                 $this->error('促销价格不能大于或等于商品价格');
             }
         }
+        $imgupload = $_SESSION['imgupload'];
         $validate=validate('Goods');
         if (!$validate->check($post))
         {
@@ -244,6 +262,12 @@ class Goods extends Controller
         if ($upd_result!==false)
         {
             session('goods_thumb', null);
+            $goods_model = new \app\admin\model\Goods;
+            $goods = $goods_model->find($post['goods_id']);
+            foreach ($imgupload as $key => $value) {
+                $goods->img()->save(['url'=>$value]);
+            }
+            unset($_SESSION['imgupload']);
             $this->success('商品修改成功','goods/goodslist');
         }else
         {
@@ -371,7 +395,7 @@ class Goods extends Controller
 
     public function imgcancle()
     {
-        if(request()->isAjax()){
+        if(request()->isAjax()) {
             $post = request()->post();
             $img_index = $post['index'];
             $img_address = $_SESSION['imgupload'][$img_index];
