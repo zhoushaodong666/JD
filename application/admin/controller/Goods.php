@@ -76,14 +76,21 @@ class Goods extends Controller
 
         if ($post['goods_after_price']!=0){
             if ($post['goods_after_price']>=$post['goods_price']){
+                unset($_SESSION['imgupload']);
+                session('goods_thumb',null);
                 $this->error('促销价格不能大于或等于商品价格');
             }
         }
-       $imgupload = $_SESSION['imgupload'];
-
+        if (!isset($_SESSION['imgupload'])){
+            session('goods_thumb',null);
+            $this->error('请不要同时打开多个添加商品窗口','goods/add');
+        }
+        $imgupload = $_SESSION['imgupload'];
         $validate=validate('Goods');
         if (!$validate->check($post))
         {
+            session('goods_thumb',null);
+            unset($_SESSION['imgupload']);
             return $this->error($validate->getError());
         }
         $goods_add_result=db('goods')->insertGetId($post);
@@ -95,8 +102,10 @@ class Goods extends Controller
             foreach ($imgupload as $key => $value) {
                 $goods->img()->save(['url'=>$value]);
             }
+            unset($_SESSION['imgupload']);
             return $this->success('商品添加成功','goods/goodslist');
         }else{
+            unset($_SESSION['imgupload']);
             session('goods_thumb',null);
             return $this->error('商品添加失败','goods/goodslist');
         }
@@ -408,6 +417,7 @@ class Goods extends Controller
             $post = request()->post();
             $img_index = $post['index'];
             $img_address = $_SESSION['imgupload'][$img_index];
+            unset($_SESSION['imgupload'][$img_index]);
             $url_pre = DS.'jd'.DS.'public';
             $url=str_replace($url_pre,'.',$img_address);
             if (file_exists($url)){
