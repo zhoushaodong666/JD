@@ -240,8 +240,10 @@ class Goods extends Controller
             }
         }
         unset($_SESSION['imgupload']);
+        unset($_SESSION['old']);
         foreach ($img_select as $key => $value) {
-            $_SESSION['imgupload'][]=$value['url'];
+            $_SESSION['imgupload'][]='1';
+            $_SESSION['old'][]=$value['url'];
         }
         $this->assign('img_select',$img_select);
         return $this->fetch();
