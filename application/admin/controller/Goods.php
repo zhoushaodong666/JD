@@ -100,7 +100,9 @@ class Goods extends Controller
             $goods_model = new \app\admin\model\Goods;
             $goods = $goods_model->find($goods_add_result);
             foreach ($imgupload as $key => $value) {
-                $goods->img()->save(['url'=>$value]);
+                if ($value!='0'){
+                    $goods->img()->save(['url'=>$value]);
+                }
             }
             unset($_SESSION['imgupload']);
             return $this->success('商品添加成功','goods/goodslist');
@@ -294,7 +296,7 @@ class Goods extends Controller
                     if (file_exists($url)) {
                         unlink($url);
                     }
-                }else if($value!='1'){
+                }else if($value!='1' && $value!='0'){
                     //新增图片情况
                     $goods->img()->save(['url'=>$value]);
                 }
@@ -438,8 +440,8 @@ class Goods extends Controller
             if ($img_address == 1){
                 $_SESSION['imgupload'][$img_index] = '-1';
             }else{
-                unset($_SESSION['imgupload'][$img_index]);
-            }
+                $_SESSION['imgupload'][$img_index] = '0';
+        }
             $url_pre = DS.'jd'.DS.'public';
             $url=str_replace($url_pre,'.',$img_address);
             if (file_exists($url)){
