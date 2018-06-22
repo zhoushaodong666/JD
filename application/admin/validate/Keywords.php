@@ -6,7 +6,7 @@ use think\Validate;
 class Keywords extends Validate
 {
     protected $rule = [
-                'keywords_name'  =>  'require|unique:Keywords',
+                'keywords_name'  =>  'require|unique:keywords',
 
     ];
 
