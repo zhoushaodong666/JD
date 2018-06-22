@@ -286,12 +286,27 @@ class Goods extends Controller
             $goods_model = new \app\admin\model\Goods;
             $goods = $goods_model->find($post['goods_id']);
             foreach ($imgupload as $key => $value) {
-                $goods->img()->save(['url'=>$value]);
+                if($value == '-1'){
+                    //旧图片删除
+                    db('img')->where('url','eq',$_SESSION['old'][$key])->delete();
+                    $url_pre = DS . 'jd' . DS . 'public';
+                    $url = str_replace($url_pre, '.',$_SESSION['old'][$key]);
+                    if (file_exists($url)) {
+                        unlink($url);
+                    }
+                }else if($value!='1'){
+                    //新增图片情况
+                    $goods->img()->save(['url'=>$value]);
+                }
+
             }
+            unset($_SESSION['old']);
             unset($_SESSION['imgupload']);
             $this->success('商品修改成功','goods/goodslist');
         }else
         {
+            unset($_SESSION['old']);
+            unset($_SESSION['imgupload']);
             session('goods_thumb', null);
             $this->error('商品修改失败','goods/goodlist');
         }
@@ -419,7 +434,12 @@ class Goods extends Controller
             $post = request()->post();
             $img_index = $post['index'];
             $img_address = $_SESSION['imgupload'][$img_index];
-            unset($_SESSION['imgupload'][$img_index]);
+
+            if ($img_address == 1){
+                $_SESSION['imgupload'][$img_index] = '-1';
+            }else{
+                unset($_SESSION['imgupload'][$img_index]);
+            }
             $url_pre = DS.'jd'.DS.'public';
             $url=str_replace($url_pre,'.',$img_address);
             if (file_exists($url)){
