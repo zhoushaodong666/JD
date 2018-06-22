@@ -441,7 +441,7 @@ class Goods extends Controller
                 $_SESSION['imgupload'][$img_index] = '-1';
             }else{
                 $_SESSION['imgupload'][$img_index] = '0';
-        }
+            }
             $url_pre = DS.'jd'.DS.'public';
             $url=str_replace($url_pre,'.',$img_address);
             if (file_exists($url)){
