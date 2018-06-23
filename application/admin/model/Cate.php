@@ -36,8 +36,7 @@ use think\Model;
                     }
                 }
                 return $arr;
-            }
-
+        }
 
 
         //获取子级的全部父类
@@ -53,6 +52,17 @@ use think\Model;
                 return $arr;
         }
 
+        //由子类id得到全部父类
+        public function getFather($cate_list,$pid){
+            $arr = array();
+            foreach ($cate_list as $key => $value) {
+                if ($value['cate_id']==$pid) {
+                    $value['father'] = $this->getFather($cate_list,$value['cate_pid']);
+                    $arr[] = $value;
+                }
+            }
+            return $arr;
+        }
         //分类和商品的一对多关系
         public function goods()
         {

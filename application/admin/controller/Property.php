@@ -17,9 +17,20 @@ class Property extends Controller
             $property_select = db('property')->select();
         }else{
             $property_select = db('property')->where('property_pid','eq',$property_pid)->select();
+            if (empty($property_select)) {
+                $this->redirect('property/propertylist');
+            }
         }
-        //var_dump($property_select);
-        $this->assign('property_select',$property_select);
+        $cate_model = model('Cate');
+        $cate_select  = db('cate')->select();
+        static $property_info=array();
+        static $property_middle =array();
+        foreach ($property_select as $key => $value) {
+            $father=$cate_model->getFatherId($cate_select,$value['property_pid']);
+            $value['father']= [$father[0],$father[1],$father[2]];
+            $property_info[]=$value;
+        }
+        $this->assign('property_info',$property_info);
         return $this->fetch();
     }
 
