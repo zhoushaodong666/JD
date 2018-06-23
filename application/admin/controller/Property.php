@@ -12,8 +12,14 @@ use think\Controller;
 
 class Property extends Controller
 {
-    public function propertylist(){
-
+    public function propertylist($property_pid=""){
+        if($property_pid==''){
+            $property_select = db('property')->select();
+        }else{
+            $property_select = db('property')->where('property_pid','eq',$property_pid)->select();
+        }
+        //var_dump($property_select);
+        $this->assign('property_select',$property_select);
         return $this->fetch();
     }
 
