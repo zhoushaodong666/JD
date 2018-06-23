@@ -112,7 +112,55 @@
 										<tr role="row">
 											<th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Domain: activate to sort column ascending" style="width: 200px;">ID</th>
 											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">商品属性名称</th>
-											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">所属分类</th>
+											<th class="hidden-480 sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Clicks: activate to sort column ascending" style="width: 144px;">
+												<ul class="nav nav-list">
+													<li class="active">
+														<a href="#" class="dropdown-toggle">
+															<!-- <i class="icon-desktop"></i> -->
+															<span class="menu-text">请选择属性分类</span>
+															<b class="arrow icon-angle-down"></b>
+														</a>
+														<ul class="nav nav-list" style="display: none;">
+															{volist name="catelist1" id="vo1"}
+															<li class="active">
+																<a href="#" class="dropdown-toggle">
+																	<!-- <i class="icon-desktop"></i> -->
+																	<span class="menu-text"> {$vo1.cate_name} </span>
+																	<b class="arrow icon-angle-down"></b>
+																</a>
+
+																<ul class="submenu" style="display: none";>
+																	{volist name="vo1.children" id="vo2"}
+																	<li class="open">
+																		<a href="#" class="dropdown-toggle">
+																			<i class="icon-double-angle-right"></i>
+
+																			{$vo2.cate_name}
+																			<b class="arrow icon-angle-down"></b>
+																		</a>
+																		<ul class="submenu" style="display: none;">
+
+																			<div class="col-xs-6">
+																				<!-- <select id="goods_pid" name="goods_pid"> -->
+																				{volist name="vo2.children" id="vo3"}
+																				<li>
+																					<a href="{:url('property/propertylist',array('property_pid'=>$vo3.cate_id))}">{$vo3.cate_name}</a></li>
+																				{/volist}
+																				<!-- </select> -->
+																			</div>
+
+
+																		</ul>
+																		{/volist}
+																	</li>
+																</ul>
+
+															</li>
+															{/volist}
+														</ul>
+													</li>
+												</ul>
+
 											<th class="sorting" role="columnheader" tabindex="0" aria-controls="sample-table-2" rowspan="1" colspan="1" aria-label="Update: activate to sort column ascending" style="width: 216px;">
 											<i class="icon-time bigger-110 hidden-480"></i>
 											操作

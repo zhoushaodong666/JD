@@ -23,13 +23,18 @@ class Property extends Controller
         }
         $cate_model = model('Cate');
         $cate_select  = db('cate')->select();
+
         static $property_info=array();
-        static $property_middle =array();
         foreach ($property_select as $key => $value) {
             $father=$cate_model->getFatherId($cate_select,$value['property_pid']);
             $value['father']= [$father[0],$father[1],$father[2]];
             $property_info[]=$value;
         }
+
+        $cate_select=$cate_model->select();
+        $catelist1=$cate_model->getChildren($cate_select);
+        //获取无限级分类列表
+        $this->assign('catelist1',$catelist1);
         $this->assign('property_info',$property_info);
         return $this->fetch();
     }
