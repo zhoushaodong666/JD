@@ -467,8 +467,18 @@ class Goods extends Controller
 
     public function addpropertyhanddle(){
         $post = request()->post();
-        var_dump($post);
-        die;
+        $goods_id = $post['goods_id'];
+        $goods_model = model('goods');
+        $goods = $goods_model->find($goods_id);
+        //增加关联数据
+        foreach ($post as $key=> $value) {
+            if ($key!='goods_id' && $value!='')
+            $goods->goodsproperty()->save([
+                'property_id'=>$key,
+                'goodsproperty_content'=>$value
+            ]);
+        }
+
     }
 
 }
