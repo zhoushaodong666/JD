@@ -87,6 +87,7 @@
 									<input id="keywords_name" name="" class="col-xs-10 col-sm-5" type="text" value="{$goods_find.goods_name}" readonly="">
 								</div>
 							</div>
+							<input type="hidden" value="{$goods_find.goods_id}" name="goods_id">
 							{volist name="property_select" id="vo"}
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right">{$vo.property_name}</label>
