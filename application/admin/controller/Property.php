@@ -64,4 +64,34 @@ class Property extends Controller
             return $this->error('添加属性失败');
         }
     }
+
+    public function upd($property_id=""){
+        $property_find = db('property')->find($property_id);
+        if (!$property_find){
+             $this->redirect('property/propertylist');
+        }
+        $this->assign('property_find',$property_find);
+
+        $cate_model=model('Cate');
+        $cate_select=$cate_model->select();
+        $catelist1=$cate_model->getChildren($cate_select);
+        //获取无限级分类列表
+        $this->assign('catelist1',$catelist1);
+
+        $cate_in=$cate_model->getFatherId($cate_select,$property_find['property_pid']);
+        $this->assign('cate_in',$cate_in);
+        return  $this->fetch();
+    }
+
+    public function updhanddle(){
+        $post = request()->post();
+        $property_upd_result = db('property')->update($post);
+        if ($property_upd_result!==false){
+            $this->success('属性修改成功','property/propertylist');
+        }else{
+            $this->error('属性修改失败','property/propertylist');
+        }
+    }
+
+
 }
