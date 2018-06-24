@@ -450,4 +450,25 @@ class Goods extends Controller
         }
     }
 
+    public function addproperty($goods_id="")
+    {
+        $goods_find = db('goods')->find($goods_id);
+        if (!$goods_find){
+            $this->redirect('goods/goodslist');
+        }
+        $this->assign('goods_find',$goods_find);
+
+        //根据商品id查找相关的属性
+        $property_select = db('property')->where('property_pid','eq',$goods_find['goods_pid'])->select();
+//        var_dump($property_select);die;
+        $this->assign('property_select',$property_select);
+        return $this->fetch();
+    }
+
+    public function addpropertyhanddle(){
+        $post = request()->post();
+        var_dump($post);
+        die;
+    }
+
 }
