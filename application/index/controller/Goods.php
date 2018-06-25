@@ -111,7 +111,7 @@ class Goods extends Controller
         $goods_get_toArray['goodsproperty']=$goods_goodsproperty_toArray;
 
         $this->assign('goods_introduction',$goods_get_toArray);
-        var_dump($goods_get_toArray);
+
 
 
         //商品类别定位
