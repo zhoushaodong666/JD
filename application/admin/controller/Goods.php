@@ -68,12 +68,12 @@ class Goods extends Controller
     //处理添加商品
     public function addhanddle()
     {
+
         $post=request()->post();
         $post['goods_thumb']=session('goods_thumb');
-        $post['goods_status']=isset($post['goods_status'])? $post['goods_status']:'0';
+        $post['goods_status'] = isset($post['goods_status'])?$post['goods_status']:'0';
         $post['goods_pid']=isset($post['goods_pid'])? $post['goods_pid']:null;
         $post['goods_after_price']=empty($post['goods_after_price'])?'0':$post['goods_after_price'];
-
         if ($post['goods_after_price']!=0){
             if ($post['goods_after_price']>=$post['goods_price']){
                 unset($_SESSION['imgupload']);
@@ -266,7 +266,8 @@ class Goods extends Controller
         }else{
             $post['goods_thumb']=$img_url;
         }
-        $post['goods_status']=isset($post['goods_status'])? $post['goods_status']:'0';
+        $post['goods_status']=isset($post['goods_status'])?'1':'0';
+
         $post['goods_pid']=isset($post['goods_pid'])? $post['goods_pid']:null;
         $post['goods_after_price']=empty($post['goods_after_price'])?'0':$post['goods_after_price'];
         if ($post['goods_after_price']!=0){

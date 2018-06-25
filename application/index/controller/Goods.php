@@ -95,10 +95,24 @@ class Goods extends Controller
         $goods_model = new \app\admin\model\Goods;
         $goods_get = $goods_model->get($goods_id);
         $goods_get_toArray = $goods_get->toArray();
+        //获取商品关键字
         $goods_keywords = $goods_get->keywords;
         $goods_keywords_toArray = $goods_keywords->toArray();
         $goods_get_toArray['keywords']=$goods_keywords_toArray;
+
+        //获取商品细节图
+        $goods_img = $goods_get->img;
+        $goods_img_toArray = $goods_img->toArray();
+        $goods_get_toArray['img']=$goods_img_toArray;
+
+        //获取商品属性
+        $goods_goodsproperty = $goods_get->goodsproperty;
+        $goods_goodsproperty_toArray = $goods_goodsproperty->toArray();
+        $goods_get_toArray['goodsproperty']=$goods_goodsproperty_toArray;
+
         $this->assign('goods_introduction',$goods_get_toArray);
+        var_dump($goods_get_toArray);
+
 
         //商品类别定位
         $goods_pid = $goods_find['goods_pid'];
