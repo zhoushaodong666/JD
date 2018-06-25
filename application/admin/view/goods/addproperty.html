@@ -92,7 +92,13 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right">{$vo.property_name}</label>
 								<div class="col-sm-9">
-									<input id="{$vo.property_id}" name="{$vo.property_id}" class="col-xs-10 col-sm-5" type="text">
+									<input id="{$vo.property_id}" name="{$vo.property_id}" class="col-xs-10 col-sm-5" type="text"
+										   {volist name="goodsproperty_select_toArray" id="vo1"}
+										   {if condition="$vo.property_id eq $vo1.property_id"}
+										   value="{$vo1.goodsproperty_content}"
+										   {/if}
+										   {/volist}
+										   >
 								</div>
 							</div>
 							{/volist}

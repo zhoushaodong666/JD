@@ -460,25 +460,54 @@ class Goods extends Controller
 
         //根据商品id查找相关的属性
         $property_select = db('property')->where('property_pid','eq',$goods_find['goods_pid'])->select();
-//        var_dump($property_select);die;
         $this->assign('property_select',$property_select);
+
+        $goods_model = model('goods');
+        $goods = $goods_model->get($goods_id);
+        $goodsproperty_select = $goods->goodsproperty()->select();
+        $goodsproperty_select_toArray = $goodsproperty_select->toArray();
+        $this->assign('goodsproperty_select_toArray',$goodsproperty_select_toArray);
         return $this->fetch();
     }
 
+    //属性添加的处理方法
     public function addpropertyhanddle(){
         $post = request()->post();
         $goods_id = $post['goods_id'];
         $goods_model = model('goods');
-        $goods = $goods_model->find($goods_id);
-        //增加关联数据
+        $goods = $goods_model->get($goods_id);
+        $goodsproperty_select = $goods->goodsproperty()->select();
+        $goodsproperty_select_toArray = $goodsproperty_select->toArray();
+        $goodsproperty_propertyid = array_column($goodsproperty_select_toArray,'property_id');
+        /**
+        提交数据的四种情况
+        1、原有属性已存在，新的属性不为空。进行更新。
+        2、原有属性已存在，新的属性为空，进行删除。
+        3、原有属性不存在，新的属性不为空，进行添加。
+        4、原有属性不存在，新的属性为空，do nothing。
+         */
         foreach ($post as $key=> $value) {
-            if ($key!='goods_id' && $value!='')
-            $goods->goodsproperty()->save([
-                'property_id'=>$key,
-                'goodsproperty_content'=>$value
-            ]);
+            //除了 good_id 其他都是需要的键名
+            if ($key!='goods_id'){
+                //只修改goodsproperty表中存在的数据
+                if (in_array($key,$goodsproperty_propertyid)){
+                    //删除传过来为空的属性
+                    if ($value==''){
+                        db('goodsproperty')->where(['property_id'=>$key,'goods_id'=>$goods_id])->delete();
+                    }else{
+                        //更新传过来的值不为空的属性
+                        db('goodsproperty')->where(['property_id'=>$key,'goods_id'=>$goods_id])
+                            ->update(['goodsproperty_content' => $value]);
+                    }
+                }else{
+                    // 不存在goodsproerty表中的数据,不为空就插入新数据
+                    if($value!=''){
+                        $goods->goodsproperty()->save(['property_id'=>$key,'goodsproperty_content'=>$value]);
+                    }
+                }
+            }
         }
-
+        $this->redirect('goods/goodslist');
     }
 
 }
