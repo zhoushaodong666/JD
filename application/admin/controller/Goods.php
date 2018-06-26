@@ -326,6 +326,29 @@ class Goods extends Controller
         if (empty($goods_find)) {
             $this->redirect('goods/goodslist');
         }
+        //删除商品对应的关键字
+        $goods_keywords_del_result = db('goods_keywords')->where('goods_id','eq',$goods_id)->delete();
+        //删除商品对应的细节图
+        //1.使用数据库的方式删除
+        //db('img')->where('goods_id','eq',$goods_id)->delete();
+        //2.使用数据库模型删除
+        $goods_model = model('Goods');
+        $goods_get = $goods_model->get($goods_id);
+        $goods_img = $goods_get->img()->select();
+        $goods_img_toArray = $goods_img->toArray();
+        //删除细节图文件
+        foreach ($goods_img as $key => $value) {
+            $url_pre = DS . 'jd' . DS . 'public';
+            $url = str_replace($url_pre, '.',$value['url']);
+            if (file_exists($url)) {
+                unlink($url);
+            }
+        }
+        //删除数据表中的细节图记录
+        $goods_get->img()->delete();
+        //删除数据表中的商品属性值记录
+        $goods_get->goodsproperty()->delete();
+        //删除数据表中的商品记录
         $goods_del_result=db('goods')->delete($goods_id);
         if ($goods_del_result){
             if ($goods_find['goods_thumb'])
@@ -337,7 +360,6 @@ class Goods extends Controller
                     unlink($url);
                 }
             }
-            $goods_keywords_del_result = db('goods_keywords')->where('goods_id','eq',$goods_id)->delete();
             $this->success('商品删除成功','goods/goodslist');
         }
         else{
