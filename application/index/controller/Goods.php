@@ -107,12 +107,15 @@ class Goods extends Controller
 
         //获取商品属性
         $goods_goodsproperty = $goods_get->goodsproperty;
-        $goods_goodsproperty_toArray = $goods_goodsproperty->toArray();
-        $goods_get_toArray['goodsproperty']=$goods_goodsproperty_toArray;
-
+        $goods_goodsproperty_toArray1 = $goods_goodsproperty->toArray();
+        $goods_goodsproperty_toArray = array();
+        foreach ($goods_goodsproperty_toArray1 as $key => $value){
+            $property = db('property')->where('property_id','eq',$value['property_id'])->find();
+            $value['property_name'] = $property['property_name'];
+            $goods_goodsproperty_toArray[] = $value;
+        }
+        $goods_get_toArray['goodsproperty'] = $goods_goodsproperty_toArray;
         $this->assign('goods_introduction',$goods_get_toArray);
-
-
 
         //商品类别定位
         $goods_pid = $goods_find['goods_pid'];
