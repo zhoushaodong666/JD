@@ -69,10 +69,10 @@
 			<div class="page-content">
 				<div class="page-header">
 					<h1>
-						分类管理
+						管理员管理
 						<small>
 							<i class="icon-double-angle-right"></i>
-							添加分类
+							添加管理员
 						</small>
 					</h1>
 				</div><!-- /.page-header -->
@@ -80,11 +80,18 @@
 				<div class="row">
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
-						<form class="form-horizontal" role="form" action="{:url('keywords/addhanddle')}" method="post">
+						<form class="form-horizontal" role="form" action="{:url('admin/addhanddle')}" method="post">
 							<div class="form-group">
-								<label class="col-sm-3 control-label no-padding-right">关键字名称</label>
+								<label class="col-sm-3 control-label no-padding-right">管理员名称</label>
 								<div class="col-sm-9">
-									<input id="keywords_name" name="keywords_name" placeholder="请输入关键字名称" class="col-xs-10 col-sm-5" type="text">
+									<input id="admin_name" name="admin_name" placeholder="请输入管理员名称" class="col-xs-10 col-sm-5" type="text">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-3 control-label no-padding-right">管理员密码</label>
+								<div class="col-sm-9">
+									<input id="admin_password" name="admin_password" placeholder="请输入管理员密码" class="col-xs-10 col-sm-5" type="text">
 								</div>
 							</div>
 
