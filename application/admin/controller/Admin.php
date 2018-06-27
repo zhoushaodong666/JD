@@ -47,7 +47,22 @@ class Admin extends Controller
         }else{
             return $this->error($validate->getError());
         }
+    }
 
+    public function checkadminname(){
+        if (request()->isAjax()){
+            $data = request()->post('admin_name');
+            if ($data==""){
+                return ['status'=> 0,'info'=>'请输入管理员名称' ];
+            }else{
+                $admin_find = db('admin')->where('admin_name','eq',$data)->find();
+                if ($admin_find){
+                    return ['status'=> 1,'info'=>'该管理员名称已存在，请修改' ];
+                }else{
+                    return ['status'=> 2,'info'=>'该管理员名称可用' ];
+                }
+            }
+        }
     }
 
 

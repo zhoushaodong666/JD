@@ -85,6 +85,7 @@
 								<label class="col-sm-3 control-label no-padding-right">管理员名称</label>
 								<div class="col-sm-9">
 									<input id="admin_name" name="admin_name" placeholder="请输入管理员名称" class="col-xs-10 col-sm-5" type="text">
+                                    <span>122</span>
 								</div>
 							</div>
 
@@ -323,7 +324,21 @@
 
 <script src="__ADMIN__/assets/js/ace-elements.min.js"></script>
 <script src="__ADMIN__/assets/js/ace.min.js"></script>
+<script type="text/javascript">
+    $('#admin_name').on('blur',function () {
+       var admin_name = $('#admin_name').val();
+       $.ajax({
+           url:"{:url('admin/admin/checkadminname')}",
+           type:"post",
+           data:{'admin_name':admin_name},
+           success:function (data) {
+               $('#admin_name').next('span').html(data.info);
+           }
+       });
+    });
 
+
+</script>
 <!-- inline scripts related to this page -->
 </body>
 </html>
