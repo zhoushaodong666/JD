@@ -6,13 +6,13 @@ use think\Validate;
 class Keywords extends Validate
 {
     protected $rule = [
-                'keywords_name'  =>  'require|unique:keywords',
+    'keywords_name'  =>  'require|unique:keywords',
 
-    ];
+];
 
     protected  $message = [
-                'keywords_name.require'=>'关键字名称不能为空',
-                'keywords_name.unique'=>'关键字名称不能重复',
+        'keywords_name.require'=>'关键字名称不能为空',
+        'keywords_name.unique'=>'关键字名称不能重复',
 
     ];
 

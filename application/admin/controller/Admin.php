@@ -34,14 +34,20 @@ class Admin extends Controller
     public function addhanddle()
     {
         $post = request()->post();
-        var_dump($post);
-        $post['admin_password'] = md5($post['admin_password']);
-        $admin_add_result = db('admin')->insert($post);
-        if ($admin_add_result){
-            $this->success('管理员添加成功');
+        $validate = validate('Admin');
+        if($validate->check($post)){
+            unset($post['admin_repassword']);
+            $post['admin_password'] = md5($post['admin_password']);
+            $admin_add_result = db('admin')->insert($post);
+            if ($admin_add_result){
+                $this->success('管理员添加成功');
+            }else{
+                $this->success('管理员添加失败');
+            }
         }else{
-            $this->success('管理员添加失败');
+            return $this->error($validate->getError());
         }
+
     }
 
 
