@@ -27,4 +27,8 @@ class Admin extends Validate
         'admin_repassword.confirm  '=>'管理员两次密码不一致',
         'admin_repassword.require  '=>'管理员重复密码不能为空',
     ];
+
+    protected  $scene = [
+        'admin_name'    =>  ['admin_name'],
+    ];
 }

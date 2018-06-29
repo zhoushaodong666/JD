@@ -336,8 +336,24 @@
 				datatype:"s6-18",
 				nullmsg:"请输入管理员名称！",
 				errormsg:"管理员名称必须为6-18个数字、字母、中文字符！",
-				sucmsg:"管理员名称可用"
-			}
+				sucmsg:"管理员名称可用",
+				ajaxurl:"{:url('admin/admin/checkadminname')}"
+			},
+			{
+				ele:"#admin_password",
+				datatype:"s8-20",
+                nullmsg:"请输入管理员密码！",
+                errormsg:"管理员名称必须为8-20个数字、字母、中文字符！",
+                sucmsg:"密码可用",
+			},
+            {
+                ele:"#admin_repassword",
+                datatype:"s8-20",
+                nullmsg:"请输入管理员密码！",
+                errormsg:"两次密码输入不一致！",
+                sucmsg:"密码可用",
+				recheck:"admin_password",
+            }
 		])
     });
 

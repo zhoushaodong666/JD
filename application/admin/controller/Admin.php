@@ -49,18 +49,33 @@ class Admin extends Controller
         }
     }
 
+//    public function checkadminname1(){
+//    if (request()->isAjax()){
+//        $admin_name = request()->post('parm');
+//        $admin_name_find_result = db('admin')->where('admin_name','eq',$admin_name)->find();
+//        if ($admin_name_find_result){
+//            return array(
+//                'status'=>'n',
+//                'info'=>'管理员'.$admin_name.'不可用',
+//            );
+//        }else{
+//            return array(
+//                'status'=>'y',
+//                'info'=>'管理员'.$admin_name.'可用',
+//            );
+//        }
+//    }
+//}
+
     public function checkadminname(){
         if (request()->isAjax()){
-            $data = request()->post('admin_name');
-            if ($data==""){
-                return ['status'=> 0,'info'=>'请输入管理员名称' ];
+            $post = request()->post();
+            $data['admin_name'] = $post['param'];
+            $validate = validate('Admin');
+            if ($validate->scene('admin_name')->check($data)){
+                return array('status'=>'y','info'=>'管理员名称可用');
             }else{
-                $admin_find = db('admin')->where('admin_name','eq',$data)->find();
-                if ($admin_find){
-                    return ['status'=> 1,'info'=>'该管理员名称已存在，请修改' ];
-                }else{
-                    return ['status'=> 2,'info'=>'该管理员名称可用' ];
-                }
+                return array('status'=>'y','info'=>$validate->getError());
             }
         }
     }
