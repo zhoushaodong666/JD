@@ -21,6 +21,8 @@ class Admin extends Controller
     //后台管理员列表页面
     public function adminlist()
     {
+        $admin_select = db('admin')->select();
+        $this->assign('admin_select',$admin_select);
         return $this->fetch();
     }
 
@@ -67,6 +69,7 @@ class Admin extends Controller
 //    }
 //}
 
+    //用户名ajax验证
     public function checkadminname(){
         if (request()->isAjax()){
             $post = request()->post();
@@ -78,6 +81,25 @@ class Admin extends Controller
                 return array('status'=>'y','info'=>$validate->getError());
             }
         }
+    }
+
+    //管理员修改页面
+    public function upd($admin_id=""){
+        $admin_find = db('admin')->find($admin_id);
+        if (!$admin_find){
+            $this->redirect('admin/adminlist');
+        }
+        $this->fetch();
+    }
+
+    //管理员修改提交处理
+    public function updhanddle(){
+
+    }
+
+    //管理员删除 提交处理
+    public function del(){
+
     }
 
 

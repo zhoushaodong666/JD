@@ -69,10 +69,10 @@
 			<div class="page-content">
 				<div class="page-header">
 					<h1>
-						关键字管理
+						管理员管理
 						<small>
 							<i class="icon-double-angle-right"></i>
-							关键字列表
+							管理员列表
 						</small>
 					</h1>
 				</div><!-- /.page-header -->
@@ -123,7 +123,7 @@
 										</thead>
 
 										<tbody role="alert" aria-live="polite" aria-relevant="all">
-										{volist name="keywords_select" id="vo"}
+										{volist name="admin_select" id="vo"}
 										<tr class="odd">
 
 											<td class="center  sorting_1">
@@ -134,18 +134,18 @@
 											</td>
 
 											<td class=" ">
-												<a href="#">{$vo.keywords_id}</a>
+												<a href="#">{$vo.admin_id}</a>
 											</td>
 
-											<td class="hidden-480 ">{$vo.keywords_name}</td>
+											<td class="hidden-480 ">{$vo.admin_name}</td>
 											<td class=" ">
 												<div class="visible-md visible-lg hidden-sm hidden-xs action-buttons">
 
-													<a class="green" href="{:url('keywords/upd',['keywords_id'=>$vo.keywords_id])}">
+													<a class="green" href="{:url('admin/upd',['admin_id'=>$vo.admin_id])}">
 														<i class="icon-pencil bigger-130"></i>
 													</a>
 
-													<a class="red" href="{:url('keywords/del',['keywords_id'=>$vo.keywords_id])}">
+													<a class="red" href="{:url('admin/del',['admin_id'=>$vo.admin_id])}">
 														<i class="icon-trash bigger-130"></i>
 													</a>
 												</div>
