@@ -69,7 +69,7 @@ class Admin extends Controller
 //    }
 //}
 
-    //用户名ajax验证
+    //管理员添加用户名ajax验证
     public function checkadminname(){
         if (request()->isAjax()){
             $post = request()->post();
@@ -78,7 +78,23 @@ class Admin extends Controller
             if ($validate->scene('admin_name')->check($data)){
                 return array('status'=>'y','info'=>'管理员名称可用');
             }else{
-                return array('status'=>'y','info'=>$validate->getError());
+                return array('status'=>'n','info'=>$validate->getError());
+            }
+        }
+    }
+
+    //管理员修改 用户名ajax验证
+    public function checkupdadminname(){
+        if (request()->isAjax()) {
+            $post = request()->post();
+            $admin['admin_id'] = $post['name'];
+            $admin['admin_name'] = $post['param'];
+            $validate = validate('admin');
+            if ($validate->scene('admin_name')->check($admin)) {
+                return array('status'=>'y','info'=>'管理员名称可以使用');
+            }
+            else{
+                return array('status'=>'n','info'=>$validate->getError());
             }
         }
     }
@@ -89,17 +105,42 @@ class Admin extends Controller
         if (!$admin_find){
             $this->redirect('admin/adminlist');
         }
-        $this->fetch();
+        $this->assign('admin_find',$admin_find);
+        return $this->fetch();
     }
 
     //管理员修改提交处理
     public function updhanddle(){
-
+        $post = request()->post();
+        $post['admin_name'] = $post[$post['admin_id']];
+        unset($post[$post['admin_id']]);
+        $validate = validate('Admin');
+        if ($validate->check($post)){
+            unset($post['admin_repassword']);
+            $post['admin_password'] = md5($post['admin_password']);
+            $admin_upd_result = db('admin')->update($post);
+            if ($admin_upd_result!==false){
+                $this->success('管理员修改成功','admin/adminlist');
+            }else{
+                $this->error('管理员修改失败','admin/adminlist');
+            }
+        }else{
+            $this->error($validate->getError(),'admin/adminlist');
+        }
     }
 
     //管理员删除 提交处理
-    public function del(){
-
+    public function del($admin_id=''){
+        $admin_find = db('admin')->find($admin_id);
+        if (empty($admin_find)){
+            $this->redirect('admin/adminlist');
+        }
+        $admin_del_result = db('admin')->delete($admin_id);
+        if ($admin_del_result){
+            $this->success('管理员删除成功','admin/adminlist');
+        }else{
+            $this->error('管理员删除失败','admin/adminlist');
+        }
     }
 
 

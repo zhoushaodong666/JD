@@ -81,11 +81,11 @@
 					<div class="col-xs-12">
 						<!-- PAGE CONTENT BEGINS -->
 						<form class="form-horizontal" role="form" action="{:url('admin/updhanddle')}" method="post">
-							<input type="hidden" name="">
+							<input type="hidden" name="admin_id" value="{$admin_find.admin_id}">
 							<div class="form-group">
 								<label class="col-sm-3 control-label no-padding-right">管理员名称</label>
 								<div class="col-sm-9">
-									<input id="admin_name" name="admin_name" placeholder="请输入管理员名称" class="col-xs-10 col-sm-5" type="text">
+									<input id="admin_name" name="{$admin_find.admin_id}" placeholder="请输入管理员名称" class="col-xs-10 col-sm-5" type="text" value="{$admin_find.admin_name}">
 								</div>
 							</div>
 
@@ -326,41 +326,36 @@
 <script src="__ADMIN__/assets/js/ace.min.js"></script>
 <script src="__ADMIN__/validform/validform.js"></script>
 <script type="text/javascript">
-	//validform插件验证
-	$(function () {
-		var demo = $('.form-horizontal').Validform({
-			tiptype:4,
-		});
-		demo.addRule([
-			{
-			    ele:"#admin_name",
-				datatype:"s6-18",
-				nullmsg:"请输入管理员名称！",
-				errormsg:"管理员名称必须为6-18个数字、字母、中文字符！",
-				sucmsg:"管理员名称可用",
-				ajaxurl:"{:url('admin/admin/checkadminname')}"
-			},
-			{
-				ele:"#admin_password",
-				datatype:"s8-20",
-                nullmsg:"请输入管理员密码！",
-                errormsg:"管理员名称必须为8-20个数字、字母、中文字符！",
-                sucmsg:"密码可用",
-			},
+    $(function(){
+        var demo = $(".form-horizontal").Validform({
+            tiptype:4,
+        });
+        demo.addRule([
+            {
+                ele:"#admin_name",
+                datatype:"s3-10",
+                nullmsg:"请输入管理员名称！",
+                errormsg:"管理员名称为3~10位",
+                sucmsg:"管理员名称可以使用！",
+                ajaxurl:'{:url("admin/admin/checkupdadminname")}'
+            },
+            {
+                ele:"#admin_password",
+                datatype:"s8-20",
+                nullmsg:"请输入密码！",
+                errormsg:"密码长度为8到20位",
+                sucmsg:"密码符合要求",
+            },
             {
                 ele:"#admin_repassword",
                 datatype:"s8-20",
-                nullmsg:"请输入管理员密码！",
-                errormsg:"两次密码输入不一致！",
-                sucmsg:"密码可用",
-				recheck:"admin_password",
+                nullmsg:"请再次输入密码！",
+                errormsg:"两次密码输入不一致",
+                sucmsg:"密码符合要求",
+                recheck:"admin_password"
             }
-		])
-    });
-
-
-
-
+        ])
+    })
 </script>
 
 

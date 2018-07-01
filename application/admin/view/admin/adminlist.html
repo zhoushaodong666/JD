@@ -145,7 +145,7 @@
 														<i class="icon-pencil bigger-130"></i>
 													</a>
 
-													<a class="red" href="{:url('admin/del',['admin_id'=>$vo.admin_id])}">
+													<a class="red" href="javascript:if(confirm('是否确认删除！')) location='{:url('admin/del',['admin_id'=>$vo.admin_id])}'">
 														<i class="icon-trash bigger-130"></i>
 													</a>
 												</div>
