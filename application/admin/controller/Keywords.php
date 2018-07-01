@@ -8,7 +8,8 @@
 namespace app\admin\controller;
 use think\Controller;
 
-    class Keywords extends Controller{
+    class Keywords extends Common
+    {
 
         public function keywordslist()
         {

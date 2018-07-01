@@ -12,7 +12,9 @@ use think\Controller;
 class Login extends Controller
 {
     public function login(){
-
+        if (session('?admin_name')){
+            $this->error('您已登录，请先退出','index/index');
+        }
         return $this->fetch();
     }
 
@@ -24,11 +26,18 @@ class Login extends Controller
         }else{
             $admin_password = $admin_find['admin_password'];
             if (md5($post['admin_password'])==$admin_password){
+                session('admin_name',$admin_find['admin_name']);
+                session('admin_id',$admin_find['admin_id']);
                 $this->success('管理员登录成功，正在跳转..','index/index');
             }else{
                 $this->error('管理员密码错误，正在跳转..');
             }
         }
+    }
 
+    public function logout(){
+        session('admin_name',null);
+        session('admin_id',null);
+        $this->redirect('login/login');
     }
 }

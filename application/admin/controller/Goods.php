@@ -6,7 +6,7 @@ if (!isset($_SESSION['imgupload']))
 {
     session_start();
 }
-class Goods extends Controller
+class Goods extends Common
 {
     //显示添加商品的界面
     public function add()

@@ -10,7 +10,7 @@ namespace app\admin\controller;
 
 use think\Controller;
 
-class Property extends Controller
+class Property extends Common
 {
     public function propertylist($property_pid=""){
         if($property_pid==''){

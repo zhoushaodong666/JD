@@ -2,7 +2,7 @@
 namespace app\admin\controller;
 use think\Controller;
 use think\Page;
-class Cate extends Controller
+class Cate extends Common
 {
     //显示分类列表
     public function catelist()

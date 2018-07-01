@@ -9,7 +9,7 @@
 namespace app\admin\controller;
 use think\Controller;
 
-class Admin extends Controller
+class Admin extends Common
 {
 
     //后台管理员登录页面
