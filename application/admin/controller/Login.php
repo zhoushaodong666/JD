@@ -20,6 +20,13 @@ class Login extends Controller
 
     public function checklogin(){
         $post = request()->post();
+        if(empty($post)){
+            $this->redirect('login/login');
+        }
+        if (!captcha_check($post['captcha'])){
+            $this->error('验证码错误');
+        }
+
         $admin_find = db('admin')->where('admin_name','eq',$post['admin_name'])->find();
         if (empty($admin_find)){
             $this->error('该管理员用户名不存在,请重新登录');
