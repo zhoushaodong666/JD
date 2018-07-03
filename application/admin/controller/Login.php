@@ -11,6 +11,7 @@ use think\Controller;
 
 class Login extends Controller
 {
+    //登录显示
     public function login(){
         if (session('?admin_name')){
             $this->error('您已登录，请先退出','index/index');
@@ -18,6 +19,7 @@ class Login extends Controller
         return $this->fetch();
     }
 
+    //登录验证
     public function checklogin(){
         $post = request()->post();
         if(empty($post)){
@@ -42,6 +44,7 @@ class Login extends Controller
         }
     }
 
+    //退出登录
     public function logout(){
         session('admin_name',null);
         session('admin_id',null);

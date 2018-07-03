@@ -91,7 +91,7 @@
 															<i class="icon-lock"></i>
 														</span>
 													</label>
-													<div><img src="{:captcha_src()}" alt="captcha" /></div>
+													<div><img src="{:captcha_src()}" alt="captcha" onclick="this.src='{:captcha_src()}?seed='+Math.random()"/></div>
 
 													<div class="space"></div>
 
@@ -111,8 +111,6 @@
 												</fieldset>
 											</form>
 										</div><!-- /widget-main -->
-
-
 									</div><!-- /widget-body -->
 								</div><!-- /login-box -->
 
@@ -242,12 +240,12 @@
 
 		<!--[if !IE]> -->
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
 
 		<!-- <![endif]-->
 
 		<!--[if IE]>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>-->
 <![endif]-->
 
 		<!--[if !IE]> -->
