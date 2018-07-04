@@ -36,7 +36,7 @@
 
 							<div class="am-tabs-bd">
 								<div class="am-tab-panel am-active">
-									<form method="post" action="{:url('register/registerhanddle')}">
+									<form method="post" action="{:url('register/registerhanddle')}" id="emailform">
 
 										<div class="user-email">
 											<label for="email"><i class="am-icon-envelope-o"></i></label>
@@ -142,6 +142,43 @@
 						</div>
 					</div>
 		</div>
+		<script type="text/javascript">
+            window.jQuery || document.write("<script src='__ADMIN__/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="__ADMIN__/validform/validform.js"></script>
+		<script type="text/javascript">
+            //validform插件验证
+            $(function () {
+                var demo = $('#emailform').Validform({
+                    tiptype:4,
+                });
+                demo.addRule([
+                    {
+                        ele:"#user_email",
+                        datatype:"e",
+                        nullmsg:"请输入邮箱！",
+                        errormsg:"请输入正确的邮箱",
+                        sucmsg:"该邮箱可用",
+//                        ajaxurl:"{:url('admin/admin/checkname')}"
+                    },
+                    {
+                        ele:"#user_password",
+                        datatype:"s6-13",
+                        nullmsg:"请输入用户密码！",
+                        errormsg:"管理员名称必须为8-20个数字、字母、中文字符！",
+                        sucmsg:"密码可用",
+                    },
+                    {
+                        ele:"#user_repassword",
+                        datatype:"s6-13",
+                        nullmsg:"请输入用户密码！",
+                        errormsg:"两次密码输入不一致！",
+                        sucmsg:"密码可用",
+                        recheck:"admin_password",
+                    }
+                ])
+            });
+		</script>
 	</body>
 
 </html>
