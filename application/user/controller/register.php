@@ -15,10 +15,17 @@ class Register extends Controller
         return $this->fetch();
     }
 
-    //用户注册提交处理的方法
+    //用户注册提交处理方法
     public function registerhanddle(){
         $post = request()->post();
-        var_dump($post);die;
+        unset($post['user_repassword']);
+        $post['user_password'] = md5($post['user_password']);
+        $user_register_result = db('user')->insert($post);
+        if ($user_register_result){
+            $this->success('恭喜用户注册成功','index/index');
+        }else{
+            $this->error('用户注册失败');
+        }
 
     }
 }
