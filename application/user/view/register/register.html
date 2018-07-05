@@ -142,9 +142,8 @@
 						</div>
 					</div>
 		</div>
-		<script type="text/javascript">
-            window.jQuery || document.write("<script src='__ADMIN__/assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
-		</script>
+
+		<!--<script src='__ADMIN__/assets/js/jquery-2.0.3.min.js'></script>-->
 		<script src="__ADMIN__/validform/validform.js"></script>
 		<script type="text/javascript">
             //validform插件验证
@@ -159,7 +158,7 @@
                         nullmsg:"请输入邮箱！",
                         errormsg:"请输入正确的邮箱",
                         sucmsg:"该邮箱可用",
-//                        ajaxurl:"{:url('admin/admin/checkname')}"
+                        ajaxurl:"{:url('user/register/checkuseremail')}"
                     },
                     {
                         ele:"#user_password",

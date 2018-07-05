@@ -22,10 +22,16 @@ class Register extends Controller
         $post['user_password'] = md5($post['user_password']);
         $user_register_result = db('user')->insert($post);
         if ($user_register_result){
-            $this->success('恭喜用户注册成功','index/index');
+            $this->success('恭喜用户注册成功','index/index/index');
         }else{
             $this->error('用户注册失败');
         }
+    }
 
+    public function checkuseremail(){
+        if (request()->isAjax()){
+            $post = request()->post();
+            var_dump($post);
+        }
     }
 }
