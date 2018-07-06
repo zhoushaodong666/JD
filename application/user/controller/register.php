@@ -31,7 +31,14 @@ class Register extends Controller
     public function checkuseremail(){
         if (request()->isAjax()){
             $post = request()->post();
-            var_dump($post);
+            $user_email = $post['param'];
+            $user_email_find = db('user')->where('user_email','eq',$user_email)->find();
+            if ($user_email_find){
+                return ['status'=>'n','info'=>'该邮箱已被注册'];
+            }else{
+                return ['status'=>'y','info'=>'该邮箱可以使用'];
+            }
+
         }
     }
 }
