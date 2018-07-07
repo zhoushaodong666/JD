@@ -4,6 +4,7 @@
             <div class="menu-hd">
                 {if condition="$Think.session.user"}
                 {$Think.session.user}
+                <a href="{:url('user/login/loginout')}" target="_top">退出登录</a>
                 {else/}
                 <a href="{:url('user/login/login')}" target="_top" class="h">亲，请登录&nbsp;|</a>
                 {/if}

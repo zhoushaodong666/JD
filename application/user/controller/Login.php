@@ -28,4 +28,9 @@ class Login extends Controller
             $this->error('用户名或密码错误');
         }
     }
+
+    public function loginout(){
+        session('user',null);
+        $this->redirect('index/index/index');
+    }
 }
