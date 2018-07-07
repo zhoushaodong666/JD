@@ -12,6 +12,7 @@
 
 		<link rel="stylesheet" href="__INDEX__/assets/css/amazeui.min.css" />
 		<link href="__INDEX__/css/dlstyle.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" type="text/css" href="__INDEX__/layui/layui/css/layui.css">
 		<script src="__INDEX__/assets/js/jquery.min.js"></script>
 		<script src="__INDEX__/assets/js/amazeui.min.js"></script>
 
@@ -42,27 +43,32 @@
 											<label for="user_email"><i class="am-icon-envelope-o"></i></label>
 											<input type="email" name="user_email" id="user_email" placeholder="请输入邮箱账号">
                  						</div>
+
                                         <div style="height: 15px"></div>
 										 <div class="user-pass">
 											<label for="user_password"><i class="am-icon-lock"></i></label>
 											<input type="password" name="user_password"  id="user_password" placeholder="设置密码">
 										 </div>
+
                                         <div style="height: 15px"></div>
 										 <div class="user-pass">
 											<label for="user_repassword"><i class="am-icon-lock"></i></label>
 											<input type="password" name="user_repassword"  id="user_repassword" placeholder="确认密码">
 										 </div>
-                                        <div style="height: 15px"></div>
-										<div class="am-cf">
-											<input type="submit"  value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+
+										<!--<div style="height: px"></div>-->
+										<div>
+											<input id="reader-me1" name="" type="checkbox"> 点击表示您同意商城
+											<a href="javascript:void(0)" onclick="layui1()">《服务协议》</a>
 										</div>
+
+										<div class="am-cf">
+											<input type="submit" name="" value="注册" class="am-btn am-btn-primary am-btn-sm am-fl">
+										</div>
+
 									</form>
                  
-								 <div class="login-links">
-										<label for="reader-me">
-											<input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
-										</label>
-							  	</div>
+
 
 								</div>
 
@@ -145,6 +151,9 @@
 
 		<!--<script src='__ADMIN__/assets/js/jquery-2.0.3.min.js'></script>-->
 		<script src="__ADMIN__/validform/validform.js"></script>
+		<script src="__INDEX__/layui/layui/layui.js"></script>
+
+
 		<script type="text/javascript">
             //validform插件验证
             $(function () {
@@ -174,10 +183,51 @@
                         errormsg:"两次密码输入不一致！",
                         sucmsg:"密码可用",
                         recheck:"user_password",
-                    }
+                    },
+					{
+                     	ele:"#reader-me1",
+                     	datatype:"*",
+                     	nullmsg:"请同意条款",
+                     	sucmsg:"您已同意条款",
+                     }
                 ])
             });
 		</script>
+
+		<script src="__INDEX__/layui/layui/layui.js"></script>
+		<script type="text/javascript">
+			function layui1(){
+				layui.use('layer', function(){
+					var layer = layui.layer;
+
+					layer.open({
+						title:'欢迎阅读服务内容',
+						type: 1,
+						content: '京东用户注册协议本协议是您与京东网站（简称;本站;，网址：www.jd.com）所有者（以下简称为;京东;）之间就京东网站服务等相关事宜所订立的契约，请您仔细阅读本注册协议，您点击;同意并继续;按钮后，本协议即构成对双方有约束力的法律文件。<h1>第1条 本站服务条款的确认和接纳</h1><h2>1.1本站的各项电子服务的所有权和运作权归京东所有。用户同意所有注册协议条款并完成注册程序，才能成为本站的正式用户。用户确认：本协议条款是处理双方权利义务的契约，始终有效，法律另有强制性规定或双方另有特别约定的，依其规定。</h2><h2>1.2用户点击同意本协议的，即视为用户确认自己具有享受本站服务、下单购物等相应的权利能力和行为能力，能够独立承担法律责任。</h2><h2>1.3如果您在18周岁以下，您只能在父母或监护人的监护参与下才能使用本站。</h2><h2>1.4京东保留在中华人民共和国大陆地区法施行之法律允许的范围内独自决定拒绝服务、关闭用户账户、清除或编辑内容或取消订单的权利。</h2>',
+						closeBtn:1,
+						area:'800px'
+					});
+				});
+			}
+		</script>
+
+		<!--<script src="__INDEX__/layui/layui/layui.js"></script>-->
+		<!--<script>-->
+            <!--function layui1(){-->
+                <!--layui.use('layer', function(){-->
+                    <!--var layer = layui.layer;-->
+
+                    <!--layer.open({-->
+                        <!--title:'欢迎阅读服务内容',-->
+                        <!--type: 1,-->
+                        <!--content: '京东用户注册协议本协议是您与京东网站（简称;本站;，网址：www.jd.com）所有者（以下简称为;京东;）之间就京东网站服务等相关事宜所订立的契约，请您仔细阅读本注册协议，您点击;同意并继续;按钮后，本协议即构成对双方有约束力的法律文件。<h1>第1条 本站服务条款的确认和接纳</h1><h2>1.1本站的各项电子服务的所有权和运作权归京东所有。用户同意所有注册协议条款并完成注册程序，才能成为本站的正式用户。用户确认：本协议条款是处理双方权利义务的契约，始终有效，法律另有强制性规定或双方另有特别约定的，依其规定。</h2><h2>1.2用户点击同意本协议的，即视为用户确认自己具有享受本站服务、下单购物等相应的权利能力和行为能力，能够独立承担法律责任。</h2><h2>1.3如果您在18周岁以下，您只能在父母或监护人的监护参与下才能使用本站。</h2><h2>1.4京东保留在中华人民共和国大陆地区法施行之法律允许的范围内独自决定拒绝服务、关闭用户账户、清除或编辑内容或取消订单的权利。</h2>',-->
+                        <!--closeBtn:1,-->
+                        <!--area:'800px'-->
+                    <!--});-->
+                <!--});-->
+            <!--}-->
+
+		<!--</script>-->
 	</body>
 
 </html>
