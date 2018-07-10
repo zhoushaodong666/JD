@@ -21,11 +21,18 @@ class Login extends Controller
         $user_email = $post['user_email'];
         $user_password = md5($post['user_password']);
         $user_find = db('user')->where('user_email','eq',$user_email)->where('user_password','eq',$user_password)->find();
-        if ($user_find){
-            session('user',$user_email);
-            $this->success('登录成功','index/index/index');
+        if(empty($user_find)){
+            //用户或密码错误的情况
+            $this->error('用户或密码错误，请重新登录','user/login/login');
+        }
+        else if($user_find['user_email_active']=='0'){
+            //用户邮箱没有激活的情况
+            $this->error('该邮箱并未激活，请登录该邮箱进行激活',url('user/login/active',array('user_email'=>$user_find['user_email'])));
         }else{
-            $this->error('用户名或密码错误');
+            //用户邮箱已经激活的情况
+            session('user_id',$user_find['user_id']);
+            session('user_email',$user_find['user_email']);
+            $this->success('登录成功！','index/index/index');
         }
     }
 
